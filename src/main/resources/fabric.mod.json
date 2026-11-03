@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "fpsboost",
+  "version": "${version}",
+  "name": "FPS Boost Toggle",
+  "description": "A client-side toggle for lower render and simulation distances.",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.fpsboost.FpsBoostClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21.1 <=1.21.11",
+    "java": ">=21",
+    "fabric-api": ">=0.100.0"
+  }
+}

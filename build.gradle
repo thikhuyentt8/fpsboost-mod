@@ -1,0 +1,47 @@
+plugins {
+	id 'fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+}
+
+version = providers.gradleProperty('mod_version').get()
+group = providers.gradleProperty('maven_group').get()
+
+base {
+	archivesName = "fpsboost-${providers.gradleProperty('minecraft_version').get()}"
+}
+
+loom {
+	splitEnvironmentSourceSets()
+	enableModProvidedJavadoc = false
+
+	mods {
+		"fpsboost" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${providers.gradleProperty('minecraft_version').get()}"
+	mappings "net.fabricmc:yarn:${providers.gradleProperty('yarn_mappings').get()}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${providers.gradleProperty('loader_version').get()}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty('fabric_api_version').get()}"
+}
+
+processResources {
+	inputs.property 'version', project.version
+	filesMatching('fabric.mod.json') {
+		expand 'version': project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.release = 21
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
